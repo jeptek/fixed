@@ -1,0 +1,1 @@
+Joona Parjanen <joona.parjanen@jeptek.com>
