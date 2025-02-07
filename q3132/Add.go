@@ -17,16 +17,17 @@ func Add(x, y FX) FX {
 	switch {
 	case x == NaN || y == NaN:
 		return NaN
-	case IsInf(x):
+	case x == Inf || x == InfNeq:
 		if y == -x { // opposite inf
 			return NaN
 		} else {
 			return x
 		}
-	case IsInf(y):
+
+	case y == Inf || y == InfNeq:
 		return y
 
-	case IsInfs(x):
+	case x == Infs || x == InfsNeq:
 		switch {
 		case y == -x: // opposite infs
 			return 0
@@ -36,7 +37,7 @@ func Add(x, y FX) FX {
 			return y
 		}
 
-	case IsInfs(y):
+	case y == Infs || y == InfsNeq:
 		switch {
 		case x == Zero:
 			return y

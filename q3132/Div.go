@@ -71,7 +71,7 @@ func div(x uint64, y uint64) uint64 {
 	// After that shift it back and use the last bit for rounding.
 
 	u1 := x >> 31
-	u0 := (x & mask) << 33
+	u0 := (x & MASK) << 33
 	hi := u1 / y
 	r := u1 % y
 	var lo uint64
@@ -81,11 +81,11 @@ func div(x uint64, y uint64) uint64 {
 		s := 64 - internal.Msb(y)
 		y <<= s
 		yn1 := y >> 32
-		yn0 := y & mask
+		yn0 := y & MASK
 		un32 := r<<s | u0>>(64-s)
 		un10 := u0 << s
 		un1 := un10 >> 32
-		un0 := un10 & mask
+		un0 := un10 & MASK
 		q1 := un32 / yn1
 		rhat := un32 - q1*yn1
 		for q1 >= ONE || q1*yn0 > ONE*rhat+un1 {

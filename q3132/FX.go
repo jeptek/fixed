@@ -29,7 +29,7 @@ func F(f float64) FX {
 
 // From integer
 func I(i int32) FX {
-	return FX(i) << shift
+	return FX(i) << SHIFT
 }
 
 func (x FX) String() string {
@@ -48,7 +48,7 @@ func (x FX) String() string {
 		return "0"
 
 	case IsInt(x):
-		return fmt.Sprintf("%d", int64(x>>shift))
+		return fmt.Sprintf("%d", int64(x>>SHIFT))
 	}
 
 	i, f := Modf(x)
@@ -111,7 +111,7 @@ func (x FX) Floor() int {
 	case x == -Infs:
 		return -1
 	}
-	return int((x + 0x00000000) >> shift)
+	return int((x + 0x00000000) >> SHIFT)
 }
 
 // Round returns closest integer to x
@@ -136,7 +136,7 @@ func (x FX) Round() int {
 	case x < -MaxValue+0x80000000:
 		return -2147483648
 	}
-	return int((x + 0x80000000) >> shift)
+	return int((x + 0x80000000) >> SHIFT)
 }
 
 // Ceil returns closest integer to x
@@ -163,7 +163,7 @@ func (x FX) Ceil() int {
 	case x < -MaxValue+0xffffffff:
 		return -2147483648
 	}
-	return int((x + 0xffffffff) >> shift)
+	return int((x + 0xffffffff) >> SHIFT)
 }
 
 func (x FX) Add(y FX) FX {
@@ -178,8 +178,16 @@ func (x FX) Div(y FX) FX {
 	return Div(x, y)
 }
 
+func (x FX) DivI(y int32) FX {
+	return Div(x, I(y))
+}
+
 func (x FX) Mul(y FX) FX {
 	return Mul(x, y)
+}
+
+func (x FX) MulI(y int32) FX {
+	return MulI(x, y)
 }
 
 // Le returns x<y

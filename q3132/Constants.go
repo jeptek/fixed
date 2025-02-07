@@ -1,10 +1,10 @@
 package q3132
 
 const (
-	shift = 32
-	mask  = 1<<shift - 1
+	SHIFT = 32
+	MASK  = 1<<SHIFT - 1
 
-	ONE = 1 << shift
+	ONE = 1 << SHIFT
 
 	// Not a Number
 	NaN FX = -9223372036854775808
@@ -73,9 +73,9 @@ const (
 	// 2*Pi
 	PiMul2 FX = 26986075409
 	// 1.5
-	ThreeHalfs FX = 3 << (shift - 1)
+	ThreeHalfs FX = 3 << (SHIFT - 1)
 	// 2
-	Two FX = 2 << shift
+	Two FX = 2 << SHIFT
 	// 0
 	Zero FX = 0
 )
@@ -114,5 +114,5 @@ func IsReal(x FX) bool {
 
 // Returns true if x is an integer
 func IsInt(x FX) bool {
-	return x == (x &^ mask)
+	return x == (x &^ MASK)
 }

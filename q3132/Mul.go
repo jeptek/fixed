@@ -17,24 +17,25 @@ func Mul(x, y FX) FX {
 		return NaN
 	case x == Zero || y == Zero:
 		return Zero
-	case IsInf(x) || IsInf(y):
+	case x == Inf || x == InfNeq || y == Inf || y == InfNeq:
 		return Inf * sgn(x) * sgn(y)
-	case IsInfs(x) || IsInfs(y):
+	case x == Infs || x == InfsNeq || y == Infs || y == InfsNeq:
 		return Infs * sgn(x) * sgn(y)
 	}
 
-	u1 := uint64(x >> shift)
-	u0 := uint64(x & mask)
-	v1 := uint64(y >> shift)
-	v0 := uint64(y & mask)
+	u1 := uint64(x >> SHIFT)
+	u0 := uint64(x & MASK)
+	v1 := uint64(y >> SHIFT)
+	v0 := uint64(y & MASK)
 
 	w0 := u0 * v0
-	t := u1*v0 + (w0 >> shift)
-	w1 := t & mask
-	w2 := uint64(int64(t) >> shift)
+	t := u1*v0 + (w0 >> SHIFT)
+	w1 := t & MASK
+	w2 := uint64(int64(t) >> SHIFT)
 	w1 += u0 * v1
+
 	lo := uint64(x) * uint64(y)
-	hi := u1*v1 + w2 + uint64(int64(w1)>>shift)
+	hi := u1*v1 + w2 + uint64(int64(w1)>>SHIFT)
 
 	_hi := int64(hi) // overflow test:
 	if int64(int32(_hi)) != _hi {
@@ -49,18 +50,18 @@ func Mul(x, y FX) FX {
 }
 
 func fastMul(x, y FX) FX {
-	xlo := uint64(x & mask)
-	xhi := uint64(x >> shift)
-	ylo := uint64(y & mask)
-	yhi := uint64(y >> shift)
+	xlo := uint64(x & MASK)
+	xhi := uint64(x >> SHIFT)
+	ylo := uint64(y & MASK)
+	yhi := uint64(y >> SHIFT)
 
 	lolo := xlo * ylo
 	lohi := xlo * yhi
 	hilo := xhi * ylo
 	hihi := xhi * yhi
 
-	var loResult = lolo>>shift + (2147483648&lolo)>>31
-	var hiResult = hihi << shift
+	var loResult = lolo>>SHIFT + (2147483648&lolo)>>31
+	var hiResult = hihi << SHIFT
 
 	return FX(loResult + lohi + hilo + hiResult)
 }

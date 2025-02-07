@@ -25,5 +25,5 @@ func Modf(x FX) (i FX, f FX) {
 		sign = -1
 		x = -x
 	}
-	return sign * (x &^ mask), sign * (x & mask)
+	return sign * (x &^ MASK), sign * (x & MASK)
 }

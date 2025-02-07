@@ -10,7 +10,7 @@ package q3132
 //	MulI(±Inf, y) = ±Inf
 //	MulI(±0, x) = ±0
 //	MulI(x, y) = ±Inf if result is larger in magnitude than MaxValue
-func MulI[INT Int64](x FX, y INT) FX {
+func MulI[T INT](x FX, y T) FX {
 	_y := FX(y)
 	// special cases:
 	switch {
@@ -18,9 +18,9 @@ func MulI[INT Int64](x FX, y INT) FX {
 		return NaN
 	case x == 0 || _y == 0:
 		return Zero
-	case IsInf(x):
+	case x == Inf || x == InfNeq:
 		return Inf * sgn(x) * sgn(FX(y))
-	case IsInfs(x):
+	case x == Infs || x == InfsNeq:
 		return Infs * sgn(x) * sgn(FX(y))
 	}
 

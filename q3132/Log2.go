@@ -24,7 +24,7 @@ func Log2(x FX) FX {
 
 	if (x & (x - 1)) == 0 { // has one bit => is power of 2
 		m := internal.Msb(uint64(x))
-		return FX((m - 33) << shift)
+		return FX((m - 33) << SHIFT)
 	}
 
 	// If the input is less than one, the result is -log2(1.0 / in)

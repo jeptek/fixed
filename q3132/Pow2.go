@@ -43,11 +43,11 @@ func Pow2(x FX) FX {
 
 	var i FX = 1
 	for term > 1 {
-		term = fastMul(term, fastMul(Ln2, Div(frac, i<<shift)))
+		term = fastMul(term, fastMul(Ln2, Div(frac, i<<SHIFT)))
 		res += term
 		i++
 	}
-	res = res << (integer >> shift)
+	res = res << (integer >> SHIFT)
 	if neg {
 		return Div(One, res)
 	}
