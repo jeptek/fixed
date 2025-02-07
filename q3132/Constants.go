@@ -12,10 +12,22 @@ const (
 	//
 	// Defines all values bigger in magnitude than largest representable value, use -Inf for negative.
 	Inf FX = 9223372036854775807
+
+	// Infinite, nonreal
+	//
+	// Defines all values bigger in magnitude than largest representable value, use -Inf for negative.
+	InfNeq FX = -Inf
+
 	// Infinitesimal, non zero, nonreal
 	//
 	// Defines all values that are smaller in magnitude than Iota.
 	Infs FX = 9223372036854775806
+
+	// Infinitesimal, non zero, nonreal
+	//
+	// Defines all values that are smaller in magnitude than Iota.
+	InfsNeq FX = -Infs
+
 	// Smallest non zero real value, adjacent values differ always by Iota.
 	//
 	// Value:
