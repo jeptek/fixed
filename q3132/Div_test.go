@@ -1,6 +1,8 @@
 package q3132
 
-import "testing"
+import (
+	"testing"
+)
 
 func BenchmarkDiv_Pi_Pi(b *testing.B) {
 	Div(Pi, Pi)
@@ -67,7 +69,6 @@ func TestDiv(t *testing.T) {
 		y    FX
 		want FX
 	}
-
 	cases := []op{
 		{x: PiInv, y: PiInv, want: One},
 		{x: PiInv, y: -PiInv, want: -One},

@@ -31,12 +31,10 @@ package q3132
 //	Pow(x, +Inf) = 0 for x < 1
 //	Pow(x, y) = NaN for x < 0 if y is not an integer
 func Pow(x, y FX) FX {
-	if IsNaN(x) || IsNaN(y) {
-		return NaN
-	}
-
 	// special cases:
 	switch {
+	case x == NaN || y == NaN:
+		return NaN
 	case x == One:
 		return One
 	case x == Zero:
@@ -130,14 +128,13 @@ func Pow(x, y FX) FX {
 		x = -x
 	}
 
+	log2 := Log2(x)
 	if y < 0 {
-		log2 := Log2(x)
 		ip := Pow2(fastMul(-y, log2))
 		if IsInf(ip) {
 			return sign * Infs
 		}
 		return sign * Div(One, ip)
 	}
-	log2 := Log2(x)
 	return sign * Pow2(fastMul(y, log2))
 }

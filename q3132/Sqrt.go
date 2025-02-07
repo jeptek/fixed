@@ -29,16 +29,17 @@ func Sqrt(x FX) FX {
 	}
 
 	m := (internal.Msb(uint64(x)) - 32)
-	xu := uint64(x)
 	res := uint64(ONE)
 	if m > 0 {
 		res <<= ((m + 1) / 2)
 	} else {
 		res >>= ((1 - m) / 2)
 	}
-	res = (div(xu, res) + res) / 2
-	res = (div(xu, res) + res) / 2
-	res = (div(xu, res) + res) / 2
-	res = (div(xu, res) + res) / 2
+
+	xu := uint64(x)
+	res = (div(xu, res) + res) >> 1
+	res = (div(xu, res) + res) >> 1
+	res = (div(xu, res) + res) >> 1
+	res = (div(xu, res) + res) >> 1
 	return FX(res)
 }

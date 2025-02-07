@@ -7,6 +7,8 @@ package q3132
 //	Add(NaN, y) = NaN
 //	Add(-Inf, +Inf) = NaN
 //	Add(±Inf, y) = ±Inf
+//	Add(±0, ±0) = ±0
+//	Add(±0, ∓0) = 0
 //	Add(±0, y) = y
 //	Add(x, y) = +Inf for x+y > 2147483647.999999999
 //	Add(x, y) = -Inf for x+y < -2147483647.999999999
@@ -27,7 +29,7 @@ func Add(x, y FX) FX {
 	case IsInfs(x):
 		switch {
 		case y == -x: // opposite infs
-			return NaN
+			return 0
 		case y == Zero:
 			return x
 		default:

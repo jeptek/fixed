@@ -7,7 +7,7 @@ package q3132
 //	Mul(NaN, y) = NaN
 //	Mul(0, y) = 0
 //	Mul(±Inf, y) = ±Inf
-//	Mul(±0, x) = ±0
+//	Mul(±0, y) = ±0
 //	Mul(x, y) = ±0 if result is smaller in magnitude than Iota
 //	Mul(x, y) = ±Inf if result is larger in magnitude than MaxValue
 func Mul(x, y FX) FX {
@@ -40,15 +40,12 @@ func Mul(x, y FX) FX {
 	if int64(int32(_hi)) != _hi {
 		return Inf * sgn(x) * sgn(y)
 	}
-
 	raw := (hi << 32) | (lo >> 32)
 	raw += (lo >> 31) & 1 // Round to nearest, instead of rounding down.
-	rawi := int64(raw)
-
-	if rawi == 0 { // underflow test:
+	if raw == 0 {         // underflow test:
 		return Infs * sgn(x) * sgn(y)
 	}
-	return FX(rawi)
+	return FX(raw)
 }
 
 func fastMul(x, y FX) FX {
