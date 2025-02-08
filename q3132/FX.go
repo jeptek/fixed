@@ -102,14 +102,14 @@ func (x FX) Floor() int {
 	switch {
 	case x == NaN:
 		panic(ErrUnexpectedNaN)
-	case x == Inf:
-		return 2147483647
-	case x == -Inf:
-		return -2147483648
 	case x == Infs:
 		return 0
 	case x == -Infs:
 		return -1
+	case x == Inf || x > MaxValue-0x80000000:
+		return 2147483647
+	case x == -Inf || x < -MaxValue+0x80000000:
+		return -2147483648
 	}
 	return int((x + 0x00000000) >> SHIFT)
 }
@@ -125,15 +125,11 @@ func (x FX) Round() int {
 	switch {
 	case x == NaN:
 		panic(ErrUnexpectedNaN)
-	case x == Inf:
-		return 2147483647
-	case x == -Inf:
-		return -2147483648
 	case x == Infs || x == -Infs:
 		return 0
-	case x > MaxValue-0x80000000:
+	case x == Inf || x > MaxValue-0x80000000:
 		return 2147483647
-	case x < -MaxValue+0x80000000:
+	case x == -Inf || x < -MaxValue+0x80000000:
 		return -2147483648
 	}
 	return int((x + 0x80000000) >> SHIFT)
@@ -150,17 +146,13 @@ func (x FX) Ceil() int {
 	switch {
 	case x == NaN:
 		panic(ErrUnexpectedNaN)
-	case x == Inf:
-		return 2147483647
-	case x == -Inf:
-		return -2147483648
 	case x == Infs:
 		return 1
 	case x == -Infs:
 		return 0
-	case x > MaxValue-0xffffffff:
+	case x == Inf || x > MaxValue-0xffffffff:
 		return 2147483647
-	case x < -MaxValue+0xffffffff:
+	case x == -Inf || x < -MaxValue+0xffffffff:
 		return -2147483648
 	}
 	return int((x + 0xffffffff) >> SHIFT)
